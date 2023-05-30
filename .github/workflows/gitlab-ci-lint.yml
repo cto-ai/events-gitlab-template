@@ -1,0 +1,10 @@
+name: Enable Gitlab CI Lint
+on: push
+
+jobs:
+  insert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: noop
+        run: |
+          echo noop
