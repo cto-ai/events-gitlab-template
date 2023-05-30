@@ -2,9 +2,15 @@ name: Enable Gitlab CI Lint
 on: push
 
 jobs:
-  insert:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - name: noop
-        run: |
-          echo noop
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: set current branch template
+        run: sed -i "s/main/${GITHUB_REF##*/}/" example-gitlab-ci.yml
+      - name: validate template
+        run: ./gitlab-ci-lint.sh example-gitlab-ci.yml
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_CI_JOB_TOKEN }}
+          GITLAB_PROJECT_ID: ${{ secrets.GITLAB_CI_PROJECT_ID }}

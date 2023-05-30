@@ -1,0 +1,37 @@
+include:
+  - remote: 'https://raw.githubusercontent.com/cto-ai/gitlab-template/main/template.yml'
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deployment Done!"
+
+deploy_success:
+  stage: cto_event
+  variables:
+    TEAM_ID: "${CTOAI_TEAM_ID}"
+    TOKEN: "${CTOAI_EVENTS_API_TOKEN}"
+    EVENT_NAME: "deployment"
+    EVENT_ACTION: "success"
+  when: on_success # Trigger if all jobs in pipeline were successful
+  environment:
+    name: production
+  extends:
+    - .cto-notify-event
+
+deploy_failure:
+  stage: cto_event
+  variables:
+    TEAM_ID: "${CTOAI_TEAM_ID}"
+    TOKEN: "${CTOAI_EVENTS_API_TOKEN}"
+    EVENT_NAME: "deployment"
+    EVENT_ACTION: "failure"
+  when: on_failure # Trigger if any of jobs in pipeline failed. job with `allow_failure` will not be considered failed job even in failure.
+  environment:
+    name: production
+  extends:
+    - .cto-notify-event
+
+stages:
+  - deploy
+  - cto_event

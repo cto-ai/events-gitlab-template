@@ -1,0 +1,24 @@
+variables:
+  ENDPOINT: https://events.cto.ai/
+
+
+.cto-send-event: &cto-send-event
+    - | 
+       curl --location --request POST "${ENDPOINT}" \
+            --header "`echo 'Authorization: Bearer' ${TOKEN}`" \
+            --header 'Content-Type: application/json' \
+            --header 'x-ops-mechanism: gitlab-job' \
+            --data "{
+              \"repo\":\"${CI_PROJECT_PATH}\",
+              \"branch\":\"${CI_COMMIT_BRANCH}\",
+              \"commit\":\"${CI_COMMIT_SHA}\",
+              \"environment\":\"${CI_ENVIRONMENT_NAME}\",
+              \"event_name\":\"${EVENT_NAME}\",
+              \"event_action\":\"${EVENT_ACTION}\",
+              \"team_id\":\"${TEAM_ID}\",
+              \"meta\":{\"user\":\"${GITLAB_USER_LOGIN}\"}
+            }"
+
+.cto-notify-event:
+  script:
+    - *cto-send-event
