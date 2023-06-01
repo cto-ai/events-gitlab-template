@@ -1,5 +1,5 @@
 include:
-  - remote: 'https://raw.githubusercontent.com/cto-ai/gitlab-template/main/template.yml'
+  - remote: 'https://raw.githubusercontent.com/cto-ai/events-gitlab-template/main/template.yml'
 
 deploy:
   stage: deploy
