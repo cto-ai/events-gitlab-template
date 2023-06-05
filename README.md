@@ -35,7 +35,7 @@ We recommend adding `environment` to help us help you differentiate multiple dep
 ```yaml
 
 include:
-  - remote: 'https://raw.githubusercontent.com/cto-ai/events-gitlab-template/v1.0/cto.gitlab-ci.yml'
+  - remote: 'https://raw.githubusercontent.com/cto-ai/events-gitlab-template/v0.0.1/cto.gitlab-ci.yml'
 
 
 deploy_success:
