@@ -1,6 +1,6 @@
 .cto-send-event: &cto-send-event
     - |
-       ENDPOINT=${ENDPOINT:-"https://events.cto.ai"}
+       ENDPOINT=https://events.cto.ai
 
        if [ -z "$TOKEN" ]; then
          echo -e "CTO.ai API token not provided. Provide TOKEN environment variable with correct access token.\nFollow Docs to know more about, how to acquire API token\nhttps://cto.ai/docs/integrate-any-tool#acquire-api-token\n"
