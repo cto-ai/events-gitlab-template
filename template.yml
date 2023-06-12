@@ -1,22 +1,48 @@
-variables:
-  ENDPOINT: https://events.cto.ai/
-
-
 .cto-send-event: &cto-send-event
-    - | 
+    - |
+       ENDPOINT=${ENDPOINT:-"https://events.cto.ai"}
+
+       if [ -z "$TOKEN" ]; then
+         echo -e "CTO.ai API token not provided. Provide TOKEN environment variable with correct access token.\nFollow Docs to know more about, how to acquire API token\nhttps://cto.ai/docs/integrate-any-tool#acquire-api-token\n"
+         exit 1
+       fi
+       
+       if [ -z "$TEAM_ID" ]; then
+         echo -e "CTO.ai team id not provided. Provide TEAM_ID environment variable to pipe.\nFollow Docs to know more about, how to acquire team id\nhttps://cto.ai/docs/integrate-any-tool#acquire-team-uuid\n"
+         exit 1
+       fi
+       
+       if [ -z "$EVENT_NAME" ]; then
+         echo -e "CTO.ai event name not provided. Provide EVENT_NAME environment variable to pipe.\nFollow Docs to know more about event names\nhttps://cto.ai/docs/insights-events\n"
+         exit 1
+       fi
+       
+       if [ -z "$EVENT_ACTION" ]; then
+         echo -e "CTO.ai event action not provided. Provide EVENT_ACTION environment variable to pipe.\nFollow Docs to know more about event actions\nhttps://cto.ai/docs/insights-events\n"
+         exit 1
+       fi
+
+       REPO=${REPO:-${CI_PROJECT_PATH}}
+       BRANCH=${BRANCH:-${CI_COMMIT_BRANCH}}
+       COMMIT=${COMMIT:-${CI_COMMIT_SHA}}
+       ENVIRONMENT=${ENVIRONMENT:-${CI_ENVIRONMENT_NAME}}
+       IMAGE=${IMAGE:-null}
+       USER=${USER:-${GITLAB_USER_LOGIN}}
+
        curl --location --request POST "${ENDPOINT}" \
             --header "`echo 'Authorization: Bearer' ${TOKEN}`" \
             --header 'Content-Type: application/json' \
             --header 'x-ops-mechanism: gitlab-job' \
             --data "{
-              \"repo\":\"${CI_PROJECT_PATH}\",
-              \"branch\":\"${CI_COMMIT_BRANCH}\",
-              \"commit\":\"${CI_COMMIT_SHA}\",
-              \"environment\":\"${CI_ENVIRONMENT_NAME}\",
+              \"repo\":\"${REPO}\",
+              \"branch\":\"${BRANCH}\",
+              \"commit\":\"${COMMIT}\",
+              \"image\":\"${IMAGE}\",
+              \"environment\":\"${ENVIRONMENT}\",
               \"event_name\":\"${EVENT_NAME}\",
               \"event_action\":\"${EVENT_ACTION}\",
               \"team_id\":\"${TEAM_ID}\",
-              \"meta\":{\"user\":\"${GITLAB_USER_LOGIN}\"}
+              \"meta\":{\"user\":\"${USER}\"}
             }"
 
 .cto-notify-event:

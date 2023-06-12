@@ -18,6 +18,35 @@ Name of event being sent i.e. "deployment"
 
 Action associated with event i.e. "failure", "progressing", "blocked" or "success"
 
+## Optional Inputs
+
+The following template fields are optional; however, more complex builds may
+require them.
+
+### `BRANCH`
+
+The `BRANCH` field refers to the git branch name where the change occurs. When
+absent, the template will use the built-in environment variable `CI_COMMIT_BRANCH` exposed by Gitlab CI/CD.
+
+### `COMMIT`
+
+The `COMMIT` field refers to the commit id where the change occurs. When absent,
+the template will use the built-in environment variable `CI_COMMIT_SHA` exposed by Gitlab CI/CD.
+
+### `REPO`
+
+The `REPO` field refers to the repository name where the change occurs. When
+absent, the template will use the built-in environment variable `CI_PROJECT_PATH` exposed by Gitlab CI/CD.
+
+### `ENVIRONMENT`
+
+The `ENVIRONMENT` field refers to the environment in which the workflow is running. When
+absent, the template will use the built-in environment variable `CI_ENVIRONMENT_NAME` exposed by Gitlab CI/CD.
+
+### `IMAGE`
+
+The `IMAGE` field refers to the OCI image name or ID associated with this event.
+
 ## Recommendations
 
 Define 2 new secrets for your `TOKEN` and `TOKEN` to be passed into the action.
