@@ -61,7 +61,7 @@ We recommend adding `environment` to help differentiate multiple deployment even
 ```yaml
 
 include:
-  - remote: 'https://raw.githubusercontent.com/cto-ai/events-gitlab-template/v0.0.1/cto.gitlab-ci.yml'
+  - remote: 'https://raw.githubusercontent.com/cto-ai/events-gitlab-template/v0.0.2/cto.gitlab-ci.yml'
 
 deploy_success:
   stage: cto_event
